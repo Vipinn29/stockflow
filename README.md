@@ -1,36 +1,181 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# StockFlow
+
+<div align="center">
+
+Modern inventory management for growing teams.
+
+[![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=nextdotjs)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19-149ECA?logo=react&logoColor=white)](https://react.dev/)
+[![Prisma](https://img.shields.io/badge/Prisma-6-2D3748?logo=prisma&logoColor=white)](https://www.prisma.io/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-336791?logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+
+</div>
+
+StockFlow is a multi-organization inventory workspace where businesses can manage products, monitor stock levels, receive low-stock alerts, and configure inventory thresholds from one clean dashboard.
+
+## Highlights
+
+- Organization-aware authentication
+- Secure signup and login with confirmation password validation
+- Organization name shown across the workspace
+- Real-time inventory dashboard
+- Product search, create, edit, and delete workflows
+- SKU management and stock quantities
+- Configurable low-stock thresholds
+- Product pricing and descriptions
+- Responsive Next.js interface
+
+## Application Preview
+
+The landing page includes a modern inventory overview, stock movement preview, and quick access to account creation and login. Authenticated users can move between Overview, Products, and Settings from the responsive application shell.
+
+## Tech Stack
+
+| Area | Technology |
+| --- | --- |
+| Framework | Next.js 16 App Router |
+| UI | React 19, TypeScript, Tailwind CSS 4 |
+| Database | PostgreSQL |
+| ORM | Prisma 6 |
+| Authentication | JSON Web Tokens, HTTP-only cookies |
+| Password Security | bcrypt |
+
+## Core Features
+
+### Dashboard
+
+- Organization name
+- Total product count
+- Total stock quantity
+- Low-stock product count
+- Current low-stock inventory table
+
+### Products
+
+- Product name and SKU
+- Optional description
+- Available quantity
+- Cost and selling prices
+- Custom low-stock threshold
+- Product-level create, update, and delete actions
+
+### Settings
+
+- Organization-wide default low-stock threshold
+- Automatic fallback for products without a custom threshold
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 20 or newer
+- npm
+- A PostgreSQL database
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/Vipinn29/stockflow.git
+cd stockflow
+```
+
+### 2. Install dependencies
+
+```bash
+npm install
+```
+
+### 3. Configure environment variables
+
+Create a `.env` file in the project root:
+
+```env
+DATABASE_URL="postgresql://USER:PASSWORD@HOST:5432/DATABASE"
+JWT_SECRET="replace-with-a-long-random-secret"
+```
+
+Generate a strong JWT secret with:
+
+```bash
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+```
+
+### 4. Prepare the database
+
+```bash
+npx prisma generate
+npx prisma db push
+```
+
+### 5. Start the application
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Available Commands
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run dev    # Start the development server
+npm run build  # Create a production build
+npm run start  # Run the production build
+npm run lint   # Run ESLint
+```
 
-## Learn More
+## Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+```text
+app/
+├── api/
+│   ├── auth/        # Login, signup, and logout handlers
+│   ├── dashboard/   # Dashboard metrics
+│   ├── products/    # Product CRUD routes
+│   └── settings/    # Inventory settings routes
+├── dashboard/       # Dashboard page
+├── login/           # Login page
+├── products/        # Product management pages
+├── settings/        # Settings page
+└── signup/          # Account creation page
+components/          # Shared application shell and UI components
+lib/                 # Authentication and Prisma helpers
+prisma/
+└── schema.prisma    # Database schema
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Environment Security
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Keep `.env` private and never commit database credentials or JWT secrets. If a secret has been exposed, rotate it immediately and update the deployed environment.
 
-## Deploy on Vercel
+## Production Deployment
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Create a PostgreSQL database.
+2. Set `DATABASE_URL` and `JWT_SECRET` in the hosting platform.
+3. Run database preparation with Prisma.
+4. Deploy the Next.js application.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+For Vercel deployments:
+
+```bash
+npx prisma generate
+npx prisma db push
+```
+
+Then add the environment variables in the Vercel project settings.
+
+## Contributing
+
+Contributions are welcome.
+
+1. Fork the repository.
+2. Create a feature branch.
+3. Make your changes.
+4. Run lint and a production build.
+5. Open a pull request.
+
+## License
+
+This project is currently private and does not include a published license.
+
+Made with love by Vipin Gupta
