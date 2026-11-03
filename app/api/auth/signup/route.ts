@@ -5,9 +5,10 @@ import { prisma } from "@/lib/prisma";
 
 export async function POST(req: Request) {
   try {
-    const { email, password, organizationName } = await req.json();
+    const { email, password, confirmPassword, organizationName } =
+      await req.json();
 
-    if (!email || !password || !organizationName) {
+    if (!email || !password || !confirmPassword || !organizationName) {
       return NextResponse.json(
         { error: "All fields are required" },
         { status: 400 }
@@ -17,6 +18,13 @@ export async function POST(req: Request) {
     if (password.length < 8) {
       return NextResponse.json(
         { error: "Password must be at least 8 characters" },
+        { status: 400 }
+      );
+    }
+
+    if (password !== confirmPassword) {
+      return NextResponse.json(
+        { error: "Passwords do not match" },
         { status: 400 }
       );
     }

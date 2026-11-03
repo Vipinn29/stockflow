@@ -15,8 +15,12 @@ export async function GET() {
 
   const organizationId = auth.organizationId;
 
-  const [totalProducts, stock, products, settings] =
+  const [organization, totalProducts, stock, products, settings] =
     await Promise.all([
+      prisma.organization.findUnique({
+        where: { id: organizationId },
+        select: { name: true },
+      }),
       prisma.product.count({
         where: { organizationId },
       }),
@@ -53,6 +57,7 @@ export async function GET() {
   });
 
   return NextResponse.json({
+    organizationName: organization?.name ?? "Organization",
     totalProducts,
     totalStockQuantity: stock._sum.quantity ?? 0,
     lowStockItems,
